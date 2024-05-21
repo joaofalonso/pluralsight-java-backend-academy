@@ -54,11 +54,16 @@ public class AdopterRepoTest {
         Adopter adopter = adopterRepo.findById(1L).orElseThrow();
         Pet pet = petRepo.findById(1L).orElseThrow();
 
-
-
         pet.setAdopter(adopter);
         petRepo.save(pet);
         Assertions.assertTrue(true);
 
+    }
+
+    @Test
+    public void testFindAllAdoptersWithoutPet(){
+        List<Adopter> result = adopterRepo.findAllWithoutPet();
+        List<Adopter> adoptersWithPets = result.stream().filter(a -> !a.getPets().isEmpty()).toList();
+        Assertions.assertEquals(0, adoptersWithPets.size());
     }
 }

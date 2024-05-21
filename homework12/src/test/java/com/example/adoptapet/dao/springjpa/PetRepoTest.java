@@ -28,7 +28,7 @@ public class PetRepoTest {
         Pet pet = new Pet();
 
         pet.setAnimalType(Animal.BIRD);
-        pet.setName("Lugia");
+        pet.setName("Ho-oh");
         pet.setAdopted(false);
         pet.setBreed("Legendary Pokemon");
         Pet save = petRepository.save(pet);
