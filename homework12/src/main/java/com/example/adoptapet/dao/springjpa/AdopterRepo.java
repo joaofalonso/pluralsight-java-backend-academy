@@ -12,5 +12,5 @@ public interface AdopterRepo extends JpaRepository<Adopter, Long> {
 
     @Query(value="SELECT a from Adopter a LEFT JOIN Pet p on p.adopter.id = a.id WHERE p.id is null")
     public List<Adopter> findAllWithoutPet();
-    
+
 }

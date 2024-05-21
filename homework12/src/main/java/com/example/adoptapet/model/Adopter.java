@@ -3,6 +3,7 @@ package com.example.adoptapet.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -12,8 +13,15 @@ public class Adopter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String firstName;
     private String lastName;
+
+    @Column(nullable = false)
+    private String email;
+
+    private LocalDate dateOfBirth;
 
     @OneToMany(mappedBy = "adopter", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("adopter")
@@ -51,13 +59,21 @@ public class Adopter {
         return pets;
     }
 
-    @Override
-    public String toString() {
-        return "Adopter{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", pets=" + pets +
-                '}';
+    public String getEmail() {
+        return email;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+
 }

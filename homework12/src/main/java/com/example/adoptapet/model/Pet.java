@@ -12,12 +12,13 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
     @Enumerated
     private Animal animalType;
     private String breed;
     private Boolean isAdopted;
     private LocalDate adoptionDate;
+    private LocalDate dateOfBirth;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="adopter_id", nullable = true)
