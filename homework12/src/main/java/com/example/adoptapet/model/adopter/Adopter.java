@@ -1,4 +1,4 @@
-package com.example.adoptapet.model;
+package com.example.adoptapet.model.adopter;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
