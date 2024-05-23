@@ -7,6 +7,8 @@ import com.example.adoptapet.model.adopter.CreateAdopter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdopterService {
 
@@ -29,4 +31,7 @@ public class AdopterService {
         return this.adopterRepo.save(buildedAdopter);
     }
 
+    public List<Adopter> findAll() {
+        return this.adopterRepo.findAll();
+    }
 }

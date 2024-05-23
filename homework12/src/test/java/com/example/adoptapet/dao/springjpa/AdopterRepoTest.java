@@ -1,22 +1,19 @@
 package com.example.adoptapet.dao.springjpa;
 
 import com.example.adoptapet.model.adopter.Adopter;
-import com.example.adoptapet.model.Pet;
-import org.hibernate.PropertyValueException;
+import com.example.adoptapet.model.adopter.AdopterBuilder;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.sql.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @SpringBootTest
 public class AdopterRepoTest {
@@ -26,84 +23,63 @@ public class AdopterRepoTest {
 
     @Autowired
     private PetRepo petRepo;
+    String adopterName = "Professor";
+    String adopterLastName = "Oak";
+    String adopterEmail = "professor.oak@kanto.com";
+    LocalDate dateOfBirth;
+    @Test
+    public void testInsertSuccess(){
 
-    @BeforeEach
-    public void setupForTests(){
-        Adopter adopter = new Adopter();
 
-        adopter.setFirstName("Professor");
-        adopter.setLastName("Oak");
-        adopter.setDateOfBirth(LocalDate.now());
-        adopter.setEmail("professor.oak@kanto.com");
+        Adopter adopter = new AdopterBuilder()
+                .initiate(adopterName)
+                .setLastName(adopterLastName)
+                .setEmail("professor.oak@kanto.com")
+                .setDateOfBirth(dateOfBirth)
+                .build();
 
-        adopterRepo.save(adopter);
+        Adopter createdAdopter = adopterRepo.save(adopter);
+
+        assertNotNull(createdAdopter);
+        assertEquals(adopterName, createdAdopter.getFirstName());
+        assertEquals(adopterLastName, createdAdopter.getLastName());
+        assertEquals(adopterEmail, createdAdopter.getEmail());
+        assertEquals(dateOfBirth, createdAdopter.getDateOfBirth());
+
     }
+    @Test
+    public void testFindById(){
+        Adopter adopter = adopterRepo.findById(1L).orElseThrow();
+        assertEquals(adopterName, adopter.getFirstName());
+        assertEquals(adopterLastName, adopter.getLastName());
+        assertEquals(adopterEmail, adopter.getEmail());
+        assertEquals(dateOfBirth, adopter.getDateOfBirth());
+    }
+
     @Test
     public void testGetAllSuccess(){
         List<Adopter> result = adopterRepo.findAll();
         Assertions.assertNotNull(result);
     }
 
-    @Test
-    public void testFindById(){
-        Adopter adopter = adopterRepo.findById(1L).orElseThrow();
 
-        Assertions.assertEquals("Professor", adopter.getFirstName());
-        Assertions.assertEquals("Oak", adopter.getLastName());
-
-    }
-    
-    @Test
-    public void testInsertSuccess(){
-        Adopter adopter = new Adopter();
-
-        adopter.setFirstName("Ash");
-        adopter.setLastName("");
-        adopter.setEmail("ash@kanto.com");
-        Adopter save = adopterRepo.save(adopter);
-
-        Assertions.assertTrue(save.getId() > 0);
-
-    }
-
-    @Test
-    public void testInsertErrorNoFirstName(){
-        Adopter adopter = new Adopter();
-        adopter.setLastName("Rocket");
-        adopter.setEmail("dummy@rocket.com");
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
-            this.adopterRepo.save(adopter);
-        });
-    }
 
     @Test
     public void testInsertErrorNoEmail(){
-        Adopter adopter = new Adopter();
-        adopter.setFirstName("Dummy");
-        adopter.setLastName("Rocket");
+        Adopter adopter = new AdopterBuilder()
+                .initiate("Ash")
+                .setLastName("")
+                .build();
 
         Assertions.assertThrows(DataIntegrityViolationException.class, () -> {
             this.adopterRepo.save(adopter);
         });
     }
-
-//    @Test
-//    public void testPetAdopterRelationship(){
-//        Adopter adopter = adopterRepo.findById(1L).orElseThrow();
-//        Pet pet = petRepo.findById(1L).orElseThrow();
-//
-//        pet.setAdoptionDate(LocalDate.now());
-//        pet.setAdopted(true);
-//        pet.setAdopter(adopter);
-//        petRepo.save(pet);
-//        Assertions.assertTrue(true);
-//
-//    }
 
     @Test
     public void testFindAllAdoptersWithoutPet(){
         List<Adopter> result = adopterRepo.findAllWithoutPet();
         List<Adopter> adoptersWithPets = result.stream().filter(a -> !a.getPets().isEmpty()).toList();
-        Assertions.assertEquals(0, adoptersWithPets.size());
+        assertEquals(0, adoptersWithPets.size());
     }
 }

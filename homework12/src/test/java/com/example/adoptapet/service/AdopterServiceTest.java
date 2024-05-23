@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @SpringBootTest
 public class AdopterServiceTest {
@@ -25,6 +26,13 @@ public class AdopterServiceTest {
         Adopter adopter = this.adopterService.createAdopter(createAdopter);
         Assertions.assertNotNull(adopter);
 
+    }
+
+    @Test
+    public void testFindAll(){
+        List<Adopter> result = this.adopterService.findAll();
+
+        Assertions.assertFalse(result.isEmpty());
     }
 
 

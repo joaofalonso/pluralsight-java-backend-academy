@@ -2,6 +2,6 @@ package com.example.adoptapet.controller;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 public class PetControllerTest {
 }
