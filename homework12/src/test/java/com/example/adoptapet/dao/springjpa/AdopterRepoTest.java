@@ -1,6 +1,6 @@
 package com.example.adoptapet.dao.springjpa;
 
-import com.example.adoptapet.model.Adopter;
+import com.example.adoptapet.model.adopter.Adopter;
 import com.example.adoptapet.model.Pet;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.Assertions;
@@ -92,6 +92,8 @@ public class AdopterRepoTest {
 //        Adopter adopter = adopterRepo.findById(1L).orElseThrow();
 //        Pet pet = petRepo.findById(1L).orElseThrow();
 //
+//        pet.setAdoptionDate(LocalDate.now());
+//        pet.setAdopted(true);
 //        pet.setAdopter(adopter);
 //        petRepo.save(pet);
 //        Assertions.assertTrue(true);

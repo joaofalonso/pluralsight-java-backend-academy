@@ -1,5 +1,6 @@
 package com.example.adoptapet.model;
 
+import com.example.adoptapet.model.adopter.Adopter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -8,11 +9,12 @@ import java.util.Date;
 
 @Entity
 public class Pet {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Enumerated
+    @Enumerated(value = EnumType.STRING)
     private Animal animalType;
     private String breed;
     private Boolean isAdopted;
@@ -20,7 +22,7 @@ public class Pet {
     private LocalDate dateOfBirth;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="adopter_id", nullable = true)
     @JsonIgnoreProperties("pets")
     private Adopter adopter;

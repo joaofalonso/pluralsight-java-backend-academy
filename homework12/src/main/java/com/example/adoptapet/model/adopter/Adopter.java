@@ -1,5 +1,6 @@
 package com.example.adoptapet.model.adopter;
 
+import com.example.adoptapet.model.Pet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -7,7 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name="adopter")
 public class Adopter {
 
     @Id
@@ -23,7 +23,7 @@ public class Adopter {
 
     private LocalDate dateOfBirth;
 
-    @OneToMany(mappedBy = "adopter", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "adopter", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JsonIgnoreProperties("adopter")
     private List<Pet> pets;
 

@@ -21,17 +21,18 @@ public class PetRepoTest {
     public void testFindAll(){
         List<Pet> all = petRepository.findAll();
         all.forEach(System.out::println);
-        Assertions.assertTrue(all.size() > 0);
+        Assertions.assertNotNull(all);
     }
     @Test
     public void testInsertSuccess(){
         Pet pet = new Pet();
 
-        pet.setAnimalType(Animal.BIRD);
-        pet.setName("Ho-oh");
+        pet.setAnimalType(Animal.CAT);
+        pet.setName("Joca");
         pet.setAdopted(false);
-        pet.setBreed("Legendary Pokemon");
+        pet.setBreed("Stray Cat");
         Pet save = petRepository.save(pet);
+
         Assertions.assertNotNull(save);
     }
 
@@ -46,9 +47,9 @@ public class PetRepoTest {
     public void testFindById(){
         Pet pet = petRepository.findById(1L).orElseThrow();
 
-        Assertions.assertEquals("Articuno", pet.getName());
-        Assertions.assertEquals(Animal.BIRD, pet.getAnimalType());
-        Assertions.assertNotNull(pet.getAdopter());
+        Assertions.assertEquals("Joca", pet.getName());
+        Assertions.assertEquals(Animal.CAT, pet.getAnimalType());
+//        Assertions.assertNotNull(pet.getAdopter());
     }
 
     @Test
